@@ -17,11 +17,20 @@ client.on_suback do
   puts "Subscribed"
 end
 
-### Connect to the eclipse test server on port 1883 (Unencrypted mode)
-client.connect('test.mosquitto.org', 1883)
+### Set the encryption mode to True
+client.ssl = true
+### Configure the user SSL key and the certificate
+client.config_ssl_context('certs/JoshRuby.cert.pem', 'certs/JoshRuby.private.key','certs/AmazonRootCA1.pem')
+
+### Connect to the test broker on port 1883 (Unencrypted mode)
+client.connect('amn4qw1e16nzl-ats.iot.us-east-2.amazonaws.com', 8883)
+
+puts "connect"
 
 ### Subscribe to a topic
 client.subscribe(['/test/', 2])
+
+puts "subscribe"
 
 ### Waiting for the suback answer and excute the previously set on_suback callback
 while waiting_suback do
